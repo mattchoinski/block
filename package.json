@@ -1,0 +1,22 @@
+{
+  "name": "blockchainin",
+  "version": "1.0.0",
+  "description": "blockchain ",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest --watchAll",
+    "dev": "nodemon dev-test"
+  },
+  "keywords": [
+    "blockchain"
+  ],
+  "author": "Julio Mojica",
+  "license": "MIT",
+  "dependencies": {
+    "crypto-js": "^3.1.9-1"
+  },
+  "devDependencies": {
+    "jest": "^22.4.2",
+    "nodemon": "^1.17.1"
+  }
+}
