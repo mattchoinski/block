@@ -5,13 +5,21 @@ class Blockchain {
         this.chain = [Block.genesis()];
     }
 
+    /**
+     * adds a block to the chain
+     * @param {*} data data being added to last block
+     */
     addBlock(data) {
         const block = Block.mineBlock(this.chain[this.chain.length - 1], data);
         this.chain.push(block);
 
         return block;
     }
-
+    /**
+     * 
+     * @param {*} chain validates chain to ensure the block is longer than previopus
+     * checks against last hash as well to ensure it matches previous block
+     */
     isValidChain(chain) {
 
         if(JSON.stringify(chain[0]) !== JSON.stringify(Block.genesis())) return false

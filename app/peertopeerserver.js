@@ -43,9 +43,16 @@ class PeerToPeerServer {
 		this.sendChain(socket);
 	}
 
+	/**
+	 * 
+	 * @param {*} socket socket object from diff connection
+	 */
 	sendChain(socket) {
 		socket.send(JSON.stringify(this.blockchain.chain));
 	}
+	/**
+	 * syncs chain along all sockets connected
+	 */
 	syncChain() {
 		this.sockets.forEach(socket => {
 			this.sendChain(socket)
