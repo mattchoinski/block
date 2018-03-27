@@ -1,12 +1,14 @@
 const SHA256 = require('crypto-js/sha256');
+const DIFFICULTY = 4;
 
 class Block {
 	
-	constructor(timestamp, lastHash, hash, data) {
+	constructor(timestamp, lastHash, hash, data, nounce) {
 		this.timestamp = timestamp;
 		this.lastHash = lastHash;
 		this.hash = hash;
 		this.data = data;
+		this.nounce = nounce
 	}
 
 	toString() {
@@ -45,10 +47,10 @@ class Block {
 	 * @param {*} data info being passed around
 	 */
 	static hash(timestamp, lastHash, data) {
-		return SHA256(`${timestamp}${lastHash}${data}`).toString();
+		return SHA256(`${timestamp}${lastHash}${data}${nounce}`).toString();
 	}
 
-	
+
 	static blockHash(block) {
 		const { timestamp, lastHash, data} = block;
 		return Block.hash(timestamp, lastHash, data);
