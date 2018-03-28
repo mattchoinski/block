@@ -1,60 +1,65 @@
 const SHA256 = require('crypto-js/sha256');
-const DIFFICULTY = 4;
+const { DIFFICULTY } = require('../config');
 
 class Block {
-	
-	constructor(timestamp, lastHash, hash, data, nounce) {
-		this.timestamp = timestamp;
-		this.lastHash = lastHash;
-		this.hash = hash;
-		this.data = data;
-		this.nounce = nounce
-	}
+  constructor(timestamp, lastHash, hash, data, nonce) {
+    this.timestamp = timestamp;
+    this.lastHash = lastHash;
+    this.hash = hash;
+    this.data = data;
+    this.nonce = nonce;
+  }
 
-	toString() {
-		return `Block -
+  toString() {
+    return `Block -
 		Timestamp: ${this.timestamp}
 		Last Hash: ${this.lastHash.toString(0, 10)}
 		Hash	 : ${this.hash.toString(0, 10)}
+		Nonce	 : ${this.nonce}
 		DATA	 : ${this.data};
-		`
-	}
-	/**
-	 * init block called genesis with hardcoded data
-	 */
-	static genesis() {
-		return new this('Genesis time', '------', 'f1r57-h45h', []);
-	}
+		`;
+  }
+  /**
+   * init block called genesis with hardcoded data
+   */
+  static genesis() {
+    return new this('Genesis time', '------', 'f1r57-h45h', [], 0);
+  }
 
-	/**
-	 * 
-	 * @param {*} lastBlock shows last link on chain
-	 * @param {*} data info being passed along ie 'jeans, money'
-	 * mines a new block to be passed around
-	 */
-	static mineBlock(lastBlock, data) {
-		const timestamp = Date.now();
-		const lastHash = lastBlock.hash;
-		const hash = Block.hash(timestamp, lastHash, data);
+  /**
+   *
+   * @param {*} lastBlock shows last link on chain
+   * @param {*} data info being passed along ie 'jeans, money'
+   * mines a new block to be passed around
+   */
+  static mineBlock(lastBlock, data) {
+    let hash, timestamp;
+    const lastHash = lastBlock.hash;
+    let nonce = 0;
 
+    //while loop to ensure hash lead === DIFFICULTY
+    do {
+      nonce++;
+      timestamp = Date.now();
+      hash = Block.hash(timestamp, lastHash, data, nonce);
+    } while (hash.substring(0, DIFFICULTY) !== '0'.repeat(DIFFICULTY));
 
-		return new this(timestamp, lastHash, hash, data);
-	}
-	/**
-	 * 
-	 * @param {*} timestamp  time stamp of when block was created
-	 * @param {*} lastHash hash of last block on chain
-	 * @param {*} data info being passed around
-	 */
-	static hash(timestamp, lastHash, data) {
-		return SHA256(`${timestamp}${lastHash}${data}${nounce}`).toString();
-	}
+    return new this(timestamp, lastHash, hash, data, nonce);
+  }
+  /**
+   *
+   * @param {*} timestamp  time stamp of when block was created
+   * @param {*} lastHash hash of last block on chain
+   * @param {*} data info being passed around
+   */
+  static hash(timestamp, lastHash, data, nonce) {
+    return SHA256(`${timestamp}${lastHash}${data}${nonce}`).toString();
+  }
 
-
-	static blockHash(block) {
-		const { timestamp, lastHash, data} = block;
-		return Block.hash(timestamp, lastHash, data);
-	}
+  static blockHash(block) {
+    const { timestamp, lastHash, data, nonce } = block;
+    return Block.hash(timestamp, lastHash, data, nonce);
+  }
 }
 
 module.exports = Block;
