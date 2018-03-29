@@ -7,6 +7,7 @@
     <li>Starting</li>
     <li>Multiple Sockets</li>
     <li>Viewing Chaining</li>
+    <li>See proof of work in action</li>
   </ol>
 </div>
 <div>
@@ -41,5 +42,11 @@
 <ul>
   <li>To view the block chain in action simply mine a new block via an app like postman to http://localhost:3001/mine</li>
   <li>If you have multiple sockets running all sockets will sync with the current chain</li>
+</ul>
+<hr />
+<h3>Proof of work demo</h3>
+<ul>
+  <li>To view the proof of work/difficulty in action simply run ```npm run test```</li>
+  <li>To change the difficulty change the MINE_RATE value, the difficulty will change based on the previous time to mine a block.</li>
 </ul>
 </div>
