@@ -15,13 +15,12 @@ Vagrant.configure(2) do |config|
 
   config.vm.provider :virtualbox do |vb|
 
-    vb.name = "DonnieOnTwitter"
+    vb.name = "block"
     vb.customize ["modifyvm", :id, "--memory", "1024"]
     vb.customize ["modifyvm", :id, "--cpus", "1"]
 
   end
 
-  config.vm.provision "file", source: "./app/", destination: "/tmp/"
   config.vm.provision "shell", path: "./script/setup-app.sh"
 
 end

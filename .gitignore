@@ -5,3 +5,4 @@
 .Trashes
 
 node_modules
+.vagrant
